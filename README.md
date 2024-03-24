@@ -1,6 +1,7 @@
 <h1 align="center">Goodang</h1>
 
 <p align="center">
+<a href="https://github.com/banakhusnan/goodang-app-api"><img src="https://img.shields.io/badge/version app-v1.0.0-green" alt="PHP Version"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/badge/Laravel-v11.0.7-orange?logo=Laravel&logoColor=orange" alt="Latest Stable Version"></a>
 <a href="https://www.php.net/releases/8.3/en.php"><img src="https://img.shields.io/badge/php-version_>=_8.2-blue?logo=php&logoColor=rgb(255%2C255%2C255)" alt="PHP Version"></a>
 </p>
@@ -11,7 +12,7 @@ Goodang merupakan aplikasi untuk merekap data gudang pada suatu toko. Aplikasi i
 
 ```
 $summary = [
-    'version-app' => '1.0',
+    'version-app' => '1.0.0',
     'Laravel' => [
         'version' => '11',
         'Authentication' => 'Sanctum'
