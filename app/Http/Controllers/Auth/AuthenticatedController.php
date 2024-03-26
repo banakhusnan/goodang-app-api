@@ -71,7 +71,7 @@ class AuthenticatedController extends Controller
         $user = $accessToken->tokenable;
 
         $accessToken = $user->createToken(
-            'access_token',
+            $user->email,
             expiresAt: Carbon::now()->addMinutes(config('sanctum.rt_expiration'))
         )->plainTextToken;
 
