@@ -16,7 +16,7 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): ProductResource
+    public function index()
     {
         $products = $this->productRepository->showAllProducts();
 
