@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Support\Str;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Sanctum\PersonalAccessToken;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Http\Request;
-// use Illuminate\Support\Facades\Request;
 
 class AuthenticatedController extends Controller
 {
@@ -36,12 +36,12 @@ class AuthenticatedController extends Controller
         }
 
         // Jika berhasil, buatkan token
-        $token = $findUser->createToken(
-            Str::uuid()->toString(),
-            expiresAt: \Carbon\Carbon::now()->addHours(3)
+        $accessToken = $findUser->createToken(
+            'access_token',
+            expiresAt: Carbon::now()->addMinutes(config('sanctum.expiration'))
         )->plainTextToken;
 
-        return new UserResource($findUser, $token);
+        return new UserResource($findUser, $accessToken);
     }
 
     public function logout(Request $request)
@@ -55,5 +55,26 @@ class AuthenticatedController extends Controller
             'status' => 'success',
             'message' => 'Logout Successfully'
         ], 200);
+    }
+
+    public function refreshToken(Request $request)
+    {
+        $accessToken = PersonalAccessToken::findToken($request->bearerToken());
+
+        if (!$accessToken) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Token wrong',
+            ], 404);
+        }
+
+        $user = $accessToken->tokenable;
+
+        $accessToken = $user->createToken(
+            'access_token',
+            expiresAt: Carbon::now()->addMinutes(config('sanctum.rt_expiration'))
+        )->plainTextToken;
+
+        return new UserResource($user, $accessToken);
     }
 }

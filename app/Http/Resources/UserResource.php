@@ -8,11 +8,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class UserResource extends JsonResource
 {
     private $user;
-    private $token;
-    public function __construct($user, $token = null)
+    private $accessToken;
+    public function __construct($user, $accessToken = null)
     {
         $this->user = $user;
-        $this->token = $token;
+        $this->accessToken = $accessToken;
     }
     /**
      * Transform the resource into an array.
@@ -24,7 +24,7 @@ class UserResource extends JsonResource
         return [
             'name' => $this->user->name,
             'email' => $this->user->email,
-            'token' => $this->whenNotNull($this->token)
+            'accessToken' => $this->whenNotNull($this->accessToken),
         ];
     }
 }
