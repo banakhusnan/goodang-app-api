@@ -3,15 +3,18 @@
 use App\Enums\TokenAbility;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedController;
+use App\Http\Controllers\Auth\UserUpdateController;
 
 // Authentication
 Route::post('register', [\App\Http\Controllers\Auth\UserRegisterController::class, 'register']);
-Route::post('login', [AuthenticatedController::class, 'login']);
-Route::post('refresh-token', [AuthenticatedController::class, 'refreshToken']);
+Route::controller(AuthenticatedController::class)->group(function () {
+    Route::post('login', 'login');
+    Route::post('refresh-token', 'refreshToken');
+});
 Route::middleware(['auth:sanctum'])
-    ->controller(AuthenticatedController::class)
     ->group(function () {
-        Route::post('logout', 'logout');
+        Route::post('logout', [AuthenticatedController::class, 'logout']);
+        Route::put('user/update', [UserUpdateController::class, 'update']);
     });
 
 // Product
