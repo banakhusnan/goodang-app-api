@@ -1,11 +1,20 @@
 <?php
 
+use App\Enums\TokenAbility;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\AuthenticatedController;
 
+// Authentication
 Route::post('register', [\App\Http\Controllers\Auth\UserRegisterController::class, 'register']);
-Route::post('login', [\App\Http\Controllers\Auth\AuthenticatedController::class, 'login']);
-Route::post('logout', [\App\Http\Controllers\Auth\AuthenticatedController::class, 'logout'])->middleware('auth:sanctum');
+Route::post('login', [AuthenticatedController::class, 'login']);
+Route::post('refresh-token', [AuthenticatedController::class, 'refreshToken']);
+Route::middleware(['auth:sanctum'])
+    ->controller(AuthenticatedController::class)
+    ->group(function () {
+        Route::post('logout', 'logout');
+    });
 
+// Product
 Route::middleware('auth:sanctum')
     ->controller(\App\Http\Controllers\ProductController::class)
     ->group(function () {
