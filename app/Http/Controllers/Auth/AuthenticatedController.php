@@ -24,11 +24,11 @@ class AuthenticatedController extends Controller
         $data = $request->validated();
 
         // Cari data berdasarkan Email
-        $findUser = $this->userRepository->findUserByEmail($data['email']);
+        $user = $this->userRepository->findUserByEmail($data['email']);
 
         // Cek, jika data yang dicari dan passwordnya tidak sesuai,
         // maka kembalikan dengan pesan error
-        if (!$findUser && !Hash::check($data['password'], $findUser->password)) {
+        if (!$user && !Hash::check($data['password'], $user->password)) {
             throw new HttpResponseException(response([
                 'status' => 'error',
                 'message' => 'Username or password wrong'
@@ -36,12 +36,12 @@ class AuthenticatedController extends Controller
         }
 
         // Jika berhasil, buatkan token
-        $accessToken = $findUser->createToken(
-            'access_token',
+        $accessToken = $user->createToken(
+            $user->email,
             expiresAt: Carbon::now()->addMinutes(config('sanctum.expiration'))
         )->plainTextToken;
 
-        return new UserResource($findUser, $accessToken);
+        return new UserResource($user, $accessToken);
     }
 
     public function logout(Request $request)
