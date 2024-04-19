@@ -26,14 +26,14 @@ class ProductRepositoryImplement implements ProductRepository
         return $product;
     }
 
-    public function showProductById($id)
+    public function showProductById($code)
     {
-        return $this->modelProduct->find($id);
+        return $this->modelProduct->whereCode($code)->first();
     }
 
-    public function updateProductById($data, $id)
+    public function updateProductById($data, $code)
     {
-        $product = $this->modelProduct->find($id);
+        $product = $this->modelProduct->whereCode($code)->first();
 
         if ($product) {
             $product->update($data);
@@ -42,9 +42,9 @@ class ProductRepositoryImplement implements ProductRepository
         return $product;
     }
 
-    public function deleteProductById($id)
+    public function deleteProductById($code)
     {
-        $deletedProduct = $this->modelProduct->find($id);
+        $deletedProduct = $this->modelProduct->whereCode($code)->first();
 
         if ($deletedProduct) {
             $deletedProduct->delete();

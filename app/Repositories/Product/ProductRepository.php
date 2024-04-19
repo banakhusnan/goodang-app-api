@@ -11,11 +11,11 @@ interface ProductRepository
     public function storeProduct($data);
 
     // Cari data product berdasarkan id
-    public function showProductById($id);
+    public function showProductById($code);
 
     // Ubah data product berdasarkan id
-    public function updateProductById($data, $id);
+    public function updateProductById($data, $code);
 
     // Hapus data product berdasarkan id
-    public function deleteProductById($id);
+    public function deleteProductById($code);
 }
