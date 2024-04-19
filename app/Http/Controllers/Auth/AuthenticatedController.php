@@ -28,7 +28,7 @@ class AuthenticatedController extends Controller
 
         // Cek, jika data yang dicari dan passwordnya tidak sesuai,
         // maka kembalikan dengan pesan error
-        if (!$user && !Hash::check($data['password'], $user->password)) {
+        if (!$user || !Hash::check($data['password'], $user->password)) {
             throw new HttpResponseException(response([
                 'status' => 'error',
                 'message' => 'Username or password wrong'
