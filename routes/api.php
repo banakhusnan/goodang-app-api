@@ -1,9 +1,9 @@
 <?php
 
-use App\Enums\TokenAbility;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\AuthenticatedController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Auth\UserUpdateController;
+use App\Http\Controllers\Auth\AuthenticatedController;
 
 // Authentication
 Route::post('register', [\App\Http\Controllers\Auth\UserRegisterController::class, 'register']);
@@ -18,12 +18,14 @@ Route::middleware(['auth:sanctum'])
     });
 
 // Product
-Route::middleware('auth:sanctum')
-    ->controller(\App\Http\Controllers\ProductController::class)
+Route::controller(\App\Http\Controllers\ProductController::class)
+    // middleware('auth:sanctum')
     ->group(function () {
         Route::get('product', 'index');
         Route::post('product', 'store');
-        Route::get('product/{id}', 'show');
-        Route::put('product/{id}', 'update');
-        Route::delete('product/{id}', 'destroy');
+        Route::get('product/{code}', 'show');
+        Route::put('product/{code}', 'update');
+        Route::delete('product/{code}', 'destroy');
     });
+
+Route::get('/get-categories', [CategoryController::class, 'getCategories']);
