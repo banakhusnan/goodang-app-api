@@ -41,10 +41,10 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id): ProductResource
+    public function show(string $code): ProductResource
     {
         // Cari data product berdasarkan id
-        $findProduct = $this->productRepository->showProductById($id);
+        $findProduct = $this->productRepository->showProductById($code);
 
         // Jika product yang dicari = kosong/null, berikan pesan error
         if (!$findProduct) {
@@ -61,13 +61,13 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(\App\Http\Requests\UpdateProductRequest $request, string $id): ProductResource
+    public function update(\App\Http\Requests\UpdateProductRequest $request, string $code): ProductResource
     {
         // Request divalidasi
         $data = $request->validated();
 
         // Ubah product kedalam repository pattern
-        $updatedProduct = $this->productRepository->updateProductById($data, $id);
+        $updatedProduct = $this->productRepository->updateProductById($data, $code);
 
         // Jika product yang dicari = kosong/null, berikan pesan error
         if (!$updatedProduct) {
@@ -83,9 +83,9 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $code)
     {
-        $deletedProduct = $this->productRepository->deleteProductById($id);
+        $deletedProduct = $this->productRepository->deleteProductById($code);
 
         if ($deletedProduct === 'success') {
             response()->json([
