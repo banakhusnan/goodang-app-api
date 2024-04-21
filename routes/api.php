@@ -19,7 +19,7 @@ Route::middleware(['auth:sanctum'])
 
 // Product
 Route::controller(\App\Http\Controllers\ProductController::class)
-    // middleware('auth:sanctum')
+    ->middleware('auth:sanctum')
     ->group(function () {
         Route::get('product', 'index');
         Route::post('product', 'store');
@@ -28,4 +28,4 @@ Route::controller(\App\Http\Controllers\ProductController::class)
         Route::delete('product/{code}', 'destroy');
     });
 
-Route::get('/get-categories', [CategoryController::class, 'getCategories']);
+Route::get('/get-categories', [CategoryController::class, 'getCategories'])->middleware('auth:sanctum');
